@@ -265,9 +265,9 @@ def main():
     inject_anchor_exceptions(engagement_id, vendors, invoices, payments)
 
     print("⬆ Writing structured data to Cosmos DB...")
-    vendors_store.upsert_items(vendors)
-    invoices_store.upsert_items(invoices)
-    payments_store.upsert_items(payments)
+    #vendors_store.upsert_items(vendors)
+    #invoices_store.upsert_items(invoices)
+    #payments_store.upsert_items(payments)
 
     print(" Generating policy snippets (RAG docs)...")
     rag_docs = generate_policy_snippets(engagement_id)

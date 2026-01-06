@@ -86,7 +86,7 @@ Write-Host "Resource Group: $resourceGroupName`n"
 
 # Define image names and paths
 $images = @(
-    @{ name = "operations-mcp"; path = ".\src\MCP\audit" }
+    @{ name = "audit-mcp"; path = ".\src\MCP\audit" }
 )
 
 # Build images

@@ -60,8 +60,8 @@ module mcpContainerApps 'mcp-container-app.bicep' = {
     containerRegistryName: containerRegistryName
     logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
     cosmosDBEndpoint:cosmosdbEnpoint
-    cosmosDBContainerName: 'trucking_operational_data'
-    cosmosDBDatabaseName: 'trucking'
+    cosmosDBContainerName: ''
+    cosmosDBDatabaseName: 'audit-poc'
   }
 }
 
