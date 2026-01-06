@@ -1,0 +1,6 @@
+requests==2.32.3
+python-dotenv==1.0.0
+azure-identity
+azure-search-documents
+azure-cosmos
+openai>=1.30.0
