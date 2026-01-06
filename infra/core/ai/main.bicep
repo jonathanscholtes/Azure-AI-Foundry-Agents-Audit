@@ -50,7 +50,19 @@ module aifoundry 'aifoundry/main.bicep' = {
 
 }
 
-
+module docIntelligence 'docintelligence/main.bicep' = {
+  name: 'docIntelligenceModule'
+  params: {
+    location: location
+    environmentName: environmentName
+    identityName: identityName
+    projectName: projectName
+    resourceToken: resourceToken
+  }
+  dependsOn: [
+    aifoundry
+  ]
+}
 
 
 

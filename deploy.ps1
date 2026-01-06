@@ -1,11 +1,18 @@
 param (
     [string]$Subscription,
-    [string]$Location = "eastus2"
+    [string]$Location = "eastus2",
+    [string]$AILocation
 )
+
+# If $AILocation is not provided, default it to $Location
+if (-not $AILocation) {
+    $AILocation = $Location
+}
 
 
 Write-Host "Subscription: $Subscription"
 Write-Host "Location: $Location"
+Write-Host "AI Location: $AILocation"
 
 
 # Variables
@@ -61,6 +68,7 @@ $deploymentOutput = az deployment sub create `
         projectName=$projectName `
         resourceToken=$resourceToken `
         location=$Location `
+        AIlocation=$AILocation `
     --query "properties.outputs"
 
 

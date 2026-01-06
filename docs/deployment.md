@@ -22,9 +22,11 @@ cd Azure-AI-Foundry-Agents-Audit
 
 Use the following PowerShell command to deploy the solution. Be sure to replace the placeholders with your actual subscription name and Azure region.
 
+To test AI Preview features that may have limited region access use  the `AILocation` flag, otherwise `Location` is used for all resources.
+
 
 ```powershell
-.\deploy.ps1 -Subscription '[Your Subscription Name]' -Location 'eastus2' 
+.\deploy.ps1 -Subscription '[Your Subscription Name]' -Location 'eastus2' -AILocation [Optional flag]  'westus
 ```
 
 ✅ This script provisions all required Azure resources based on the specified parameters. The deployment may take up to **30 minutes** to complete.

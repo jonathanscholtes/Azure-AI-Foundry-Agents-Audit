@@ -18,6 +18,10 @@ from azure.search.documents.indexes.models import (
     VectorSearchAlgorithmMetric,
     AzureOpenAIVectorizer,
     AzureOpenAIVectorizerParameters,
+    SemanticSearch,
+    SemanticConfiguration,
+    SemanticPrioritizedFields,
+    SemanticField,
     SearchIndexerDataUserAssignedIdentity,
 )
 
@@ -99,6 +103,14 @@ class AuditPolicySearchIndex:
             print(f"ℹ️ Search index '{self.index_name}' already exists")
             return
 
+        semantic_config = SemanticConfiguration(
+                name="default",
+                prioritized_fields=SemanticPrioritizedFields(
+                    title_field=SemanticField(field_name="section"),
+                    content_fields=[SemanticField(field_name="content")],
+                    keywords_fields=[SemanticField(field_name="content"),SemanticField(field_name="section")],
+                )
+            )
         fields = [
             SimpleField(name="id", type="Edm.String", key=True),
 
@@ -159,6 +171,7 @@ class AuditPolicySearchIndex:
             name=self.index_name,
             fields=fields,
             vector_search=vector_search,
+            semantic_search=SemanticSearch(configurations=[semantic_config]),
         )
 
         self.index_client.create_index(index)
