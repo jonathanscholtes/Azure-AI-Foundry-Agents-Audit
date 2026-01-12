@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import random
 from datetime import datetime, timedelta, timezone
-from typing import List
+from typing import List, Dict, Optional
 from dotenv import load_dotenv
-
+import csv
+from pathlib import Path
 from cosmos_store import CosmosStore
 from search_index import AuditPolicySearchIndex  # your new wrapper for AI Search
 
@@ -239,6 +240,26 @@ def generate_policy_snippets(engagement_id: str) -> List[dict]:
     ]
     return [generate_policy_doc(engagement_id, p) for p in policies]
 
+def write_csv(path: Path, rows: List[Dict], fieldnames: Optional[List[str]] = None) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not rows:
+        raise ValueError(f"No rows to write for {path.name}")
+
+    if fieldnames is None:
+        # stable ordering: use keys from first row, then any extra keys discovered later
+        fieldnames = list(rows[0].keys())
+        for r in rows[1:]:
+            for k in r.keys():
+                if k not in fieldnames:
+                    fieldnames.append(k)
+
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+        w.writeheader()
+        for r in rows:
+            # keep None as blank cells (common CSV convention)
+            w.writerow({k: ("" if r.get(k) is None else r.get(k)) for k in fieldnames})
+
 # -------------------------------------------------------------------
 # MAIN
 # -------------------------------------------------------------------
@@ -264,7 +285,7 @@ def main():
 
     inject_anchor_exceptions(engagement_id, vendors, invoices, payments)
 
-    print("⬆ Writing structured data to Cosmos DB...")
+    # print("⬆ Writing structured data to Cosmos DB...")
     vendors_store.upsert_items(vendors)
     invoices_store.upsert_items(invoices)
     payments_store.upsert_items(payments)
@@ -274,6 +295,13 @@ def main():
 
     print(f"⬆ Indexing {len(rag_docs)} policy documents into Azure AI Search...")
     search.upload_documents(rag_docs)
+
+    out_dir = Path("../../data")
+
+    write_csv(out_dir / "vendors.csv", vendors)
+    write_csv(out_dir / "invoices.csv", invoices)
+    write_csv(out_dir / "payments.csv", payments)
+ 
 
     print(" Generation complete")
     print(f"Vendors: {len(vendors)}")
