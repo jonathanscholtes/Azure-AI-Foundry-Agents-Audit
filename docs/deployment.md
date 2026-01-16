@@ -31,7 +31,41 @@ To test AI Preview features that may have limited region access use  the `AILoca
 
 ✅ This script provisions all required Azure resources based on the specified parameters. The deployment may take up to **30 minutes** to complete.
 
+### **Alternative: Deploy with Terraform**
 
+You can also deploy the solution using Terraform and the provided PowerShell script. This is useful for infrastructure-as-code workflows or advanced customization.
+
+#### **Prerequisites**
+- [Terraform](https://www.terraform.io/downloads.html) installed
+- Azure CLI installed and authenticated (`az login`)
+- Proper permissions to create resources in your Azure subscription
+
+#### **Steps**
+1. **Navigate to the project root directory.**
+2. **Run the deployment script:**
+	```powershell
+	.\deploy-terraform.ps1 -Subscription '[Your Subscription Name]' -Location 'eastus2' -DeployApps
+	```
+	- This script will initialize Terraform, plan, and apply the deployment using the variables you provide.
+	- You may be prompted to confirm actions during the process.
+
+3. **Customize variables:**
+	- Edit `terraform/terraform.tfvars` or create your own based on `terraform/terraform.tfvars.example` for custom settings.
+
+4. **Destroy resources (optional):**
+	 - To remove all resources created by Terraform, you can now use the script with the destroy option:
+		 ```powershell
+		 .\deploy-terraform.ps1 -Subscription '[Your Subscription Name]' -Location 'eastus2' -Destroy
+		 ```
+	 - Alternatively, you can run the destroy command manually:
+		 ```powershell
+		 cd terraform
+		 terraform destroy -var-file="terraform.tfvars"
+		 ```
+
+For more details, see `terraform/README.md`.
+
+---
 
 ### 3. Generate and Index Audit Data
 

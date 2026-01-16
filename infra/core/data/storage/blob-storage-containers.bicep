@@ -15,10 +15,6 @@ resource loadContainer 'Microsoft.Storage/storageAccounts/blobServices/container
   name: 'load'
 }
 
-resource transcriptContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-04-01' = {
-  parent: blobServices
-  name: 'transcript'
-}
 
 
 

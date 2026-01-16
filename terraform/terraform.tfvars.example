@@ -1,0 +1,22 @@
+# Terraform Configuration Example
+# Copy this file to terraform.tfvars and update with your values
+
+
+# Required Variables
+subscription_id  = "00000000-0000-0000-0000-000000000000"  # Your Azure subscription ID
+environment_name = "demo"                                   # Environment: demo, test, prod, etc.
+project_name     = "audit"                                  # Project name (should match your solution)
+resource_token   = "unique123"                              # Unique identifier (e.g., build ID, commit hash)
+location         = "eastus2"                                # Azure region
+
+# Optional Variables
+# Uncomment and set as needed
+
+
+# Deploy application components (App Service Plan, Web Apps, Function Apps, Container Apps)
+# Set to true to deploy application layer (recommended for full deployment)
+# deploy_applications = true
+
+
+# Custom OpenAI endpoint (if not using deployed AI Foundry)
+# openai_endpoint = "https://your-openai-resource.openai.azure.com/"
