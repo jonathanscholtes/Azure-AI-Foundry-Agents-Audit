@@ -61,9 +61,43 @@ variable "storage_account_id" {
 locals {
   ai_account_name = "fnd-${var.project_name}-${var.environment_name}-${var.resource_token}"
   ai_project_name = "proj-${var.project_name}-${var.environment_name}-${var.resource_token}"
+  search_service_name = "srch-${var.project_name}-${var.environment_name}-${var.resource_token}"
 }
 
 data "azurerm_client_config" "current" {}
+
+# Azure AI Search Service
+resource "azurerm_search_service" "main" {
+  name                = local.search_service_name
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  sku                 = "standard"
+  
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [var.identity_id]
+  }
+
+  public_network_access_enabled = true
+  local_authentication_enabled  = false
+  semantic_search_sku          = "standard"
+  partition_count              = 1
+  replica_count                = 1
+}
+
+# Grant Search Index Data Contributor role to managed identity
+resource "azurerm_role_assignment" "search_index_contributor" {
+  scope                = azurerm_search_service.main.id
+  role_definition_name = "Search Index Data Contributor"
+  principal_id         = var.identity_principal_id
+}
+
+# Grant Search Service Contributor role to managed identity
+resource "azurerm_role_assignment" "search_service_contributor" {
+  scope                = azurerm_search_service.main.id
+  role_definition_name = "Search Service Contributor"
+  principal_id         = var.identity_principal_id
+}
 
 # AI Services Account (Microsoft Foundry )
 resource "azapi_resource" "ai_account" {
@@ -250,4 +284,15 @@ output "ai_account_id" {
 
 output "ai_project_id" {
   value = azapi_resource.ai_project.id
+}
+output "search_service_id" {
+  value = azurerm_search_service.main.id
+}
+
+output "search_service_name" {
+  value = azurerm_search_service.main.name
+}
+
+output "search_service_endpoint" {
+  value = "https://${azurerm_search_service.main.name}.search.windows.net/"
 }

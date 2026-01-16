@@ -52,5 +52,17 @@ output "cosmosdb_endpoint" {
   value       = module.data.cosmosdb_endpoint
 }
 
+output "search_service_name" {
+  description = "Name of the Azure AI Search service"
+  value       = module.ai.search_service_name
+}
 
+output "search_service_endpoint" {
+  description = "Endpoint of the Azure AI Search service"
+  value       = module.ai.search_service_endpoint
+}
 
+output "key_vault_name" {
+  description = "Name of the Key Vault"
+  value       = module.security.key_vault_name
+}

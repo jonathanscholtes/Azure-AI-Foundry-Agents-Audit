@@ -58,7 +58,7 @@ resource account 'Microsoft.CognitiveServices/accounts@2025-06-01' = {
     publicNetworkAccess: 'Enabled'
     disableLocalAuth: false
   }
- 
+  
 }
 
 

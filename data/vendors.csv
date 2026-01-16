@@ -1,5 +1,5 @@
 id,type,engagement_id,vendor_id,name,risk_tier,created_at,bank_account_hash
-eng-001:VEN-1000,vendor,eng-001,VEN-1000,Acme Supply Co,Low,2024-11-15,ba_46048
+eng-001:VEN-1000,vendor,eng-001,VEN-1000,Acme Supply Co,High,2024-11-15,ba_46048
 eng-001:VEN-1001,vendor,eng-001,VEN-1001,Northwind Parts,Low,2024-11-15,ba_28289
 eng-001:VEN-1002,vendor,eng-001,VEN-1002,Acme Supply Co,High,2024-11-15,ba_81482
 eng-001:VEN-1003,vendor,eng-001,VEN-1003,Acme Supply Co,High,2024-11-15,ba_65302
